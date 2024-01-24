@@ -1,0 +1,13 @@
+[project]
+name = ""
+version = ""
+description = ""
+authors = [
+    {name = "Private Butts", email = "randybuttsii@gmail.com"},
+]
+dependencies = [
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
