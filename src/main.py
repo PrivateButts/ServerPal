@@ -7,7 +7,7 @@ from helpers.rcon import RCon
 from tasks.discord import start_bot
 from tasks.autosleep import AutoSleep
 
-log = structlog.get_logger()
+log = structlog.get_logger(module="main")
 
 CONFIG = load_config()
 RCON = RCon()

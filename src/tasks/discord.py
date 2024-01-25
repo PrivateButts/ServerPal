@@ -4,8 +4,9 @@ import structlog
 from discord.ext import commands
 from config import load_config
 from helpers.rcon import RCon, RconError
+from helpers import dispatcher
 
-log = structlog.get_logger()
+log = structlog.get_logger(module="discord")
 CONFIG = load_config()
 RCON = RCon()
 BOT = commands.Bot(command_prefix="!", intents=discord.Intents.all())
@@ -19,6 +20,8 @@ async def on_ready():
         log.info(f"Synced {synced} commands.")
     except Exception as e:
         log.exception("Failed to sync commands.", exc_info=e)
+
+    BOT.loop.create_task(notify_shutdown())
 
 
 @BOT.tree.command(name="start", description="Starts the server.")
@@ -112,6 +115,18 @@ async def save(interaction: discord.Interaction):
     except Exception as e:
         log.exception("Failed to get status.", exc_info=e)
         await interaction.followup.send("Command Failed.")
+
+
+async def notify_shutdown():
+    queue = dispatcher.listen("server_auto_shutdown")
+    if not CONFIG.discord.alert_channel:
+        return
+    log.info("Listening for server shutdown")
+    while True:
+        await queue.get()
+        log.info("Sending shutdown alert")
+        channel = BOT.get_channel(CONFIG.discord.alert_channel)
+        await channel.send("Server is shutting down due to inactivity")
 
 
 async def start_bot(token):

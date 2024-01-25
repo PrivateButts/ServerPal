@@ -1,6 +1,17 @@
 from dataclasses import dataclass
 from pathlib import Path
-from strictyaml import load, Map, Str, Int, Bool, Seq, YAMLError, as_document
+from typing import Optional
+from strictyaml import (
+    load,
+    Map,
+    Str,
+    Int,
+    Bool,
+    Seq,
+    YAMLError,
+    as_document,
+    Optional as Opt,
+)
 
 
 SCHEMA = Map(
@@ -17,6 +28,7 @@ SCHEMA = Map(
                 "enabled": Bool(),
                 "token": Str(),
                 "server_start_command": Str(),
+                Opt("alert_channel"): Int(),
             }
         ),
         "rcon": Map(
@@ -42,6 +54,7 @@ class DiscordConfig:
     enabled: bool
     token: str
     server_start_command: str
+    alert_channel: Optional[int]
 
 
 @dataclass
