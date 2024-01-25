@@ -55,6 +55,12 @@ async def start(interaction: discord.Interaction):
         except asyncio.TimeoutError:
             await interaction.followup.send("Server started!")
             log.info("started server!")
+            log.info("Updating activity")
+            activity = discord.Activity(
+                type=discord.ActivityType.watching,
+                name=f"an online server",
+            )
+            await BOT.change_presence(activity=activity)
             return
 
     except Exception as e:
@@ -127,6 +133,27 @@ async def notify_shutdown():
         log.info("Sending shutdown alert")
         channel = BOT.get_channel(CONFIG.discord.alert_channel)
         await channel.send("Server is shutting down due to inactivity")
+        log.info("Updating activity")
+        activity = discord.Activity(
+            type=discord.ActivityType.watching,
+            name=f"an offline server",
+        )
+        await BOT.change_presence(activity=activity)
+
+
+async def update_player_count():
+    queue = dispatcher.listen("server_player_count_changed")
+    if not CONFIG.discord.alert_channel:
+        return
+    log.info("Listening for player count changes")
+    while True:
+        await queue.get()
+        log.info("Updating activity")
+        activity = discord.Activity(
+            type=discord.ActivityType.watching,
+            name=f"an online server, {len(await RCON.get_players())} players active",
+        )
+        await BOT.change_presence(activity=activity)
 
 
 async def start_bot(token):

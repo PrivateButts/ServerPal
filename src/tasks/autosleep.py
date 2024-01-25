@@ -80,6 +80,7 @@ class AutoSleep:
                 if self.last_player_count != len(players):
                     log.info(f"There's {len(players)} players online")
                     self.last_player_count = len(players)
+                    dispatcher.emit("server_player_count_changed", len(players))
                 if self.shutting_down:
                     await self.cancel_shutdown()
 
