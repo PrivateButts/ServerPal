@@ -73,6 +73,8 @@ class AutoSleep:
                         "Unable to connect to server, waiting for it to come back"
                     )
                     self.offline = True
+                    if self.shutting_down:
+                        await self.cancel_shutdown()
                 await asyncio.sleep(self.watch_interval)
                 continue
 
