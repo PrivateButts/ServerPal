@@ -9,7 +9,13 @@ from helpers import dispatcher
 log = structlog.get_logger(module="discord")
 CONFIG = load_config()
 RCON = RCon()
-BOT = commands.Bot(command_prefix="!", intents=discord.Intents.all())
+BOT = commands.Bot(
+    command_prefix="!",
+    intents=discord.Intents.all(),
+    activity=discord.Activity(
+        name="an offline server", type=discord.ActivityType.watching
+    ),
+)
 
 
 @BOT.event
