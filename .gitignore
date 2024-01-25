@@ -163,3 +163,4 @@ cython_debug/
 
 src/config.yaml
 src/rcon.yaml
+ecosystem.config.js
