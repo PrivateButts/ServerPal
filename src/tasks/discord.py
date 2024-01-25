@@ -28,6 +28,7 @@ async def on_ready():
         log.exception("Failed to sync commands.", exc_info=e)
 
     BOT.loop.create_task(notify_shutdown())
+    BOT.loop.create_task(update_player_count())
 
 
 @BOT.tree.command(name="start", description="Starts the server.")
