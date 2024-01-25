@@ -32,9 +32,6 @@ class AutoSleep:
         await RCON.shutdown()
         dispatcher.emit("server_auto_shutdown")
 
-        log.info(f"Shutdown command sent, backing off for 60 seconds")
-        await asyncio.sleep(60)
-
     async def shutdown_warn(self):
         log.info(f"Shutting down server in 60 seconds")
         await RCON.broadcast("server_shutdown_warning")
