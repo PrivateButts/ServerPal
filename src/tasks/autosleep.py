@@ -88,6 +88,7 @@ class AutoSleep:
                 log.info(
                     f"Shutting down server in {self.shutdown_timeout} seconds if no players join"
                 )
+                dispatcher.emit("server_player_count_changed", 0)
                 asyncio.create_task(self.trigger_shutdown())
 
             await asyncio.sleep(self.watch_interval)
