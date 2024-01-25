@@ -83,7 +83,7 @@ class AutoSleep:
                 if self.shutting_down:
                     await self.cancel_shutdown()
 
-            if not self.shutting_down:
+            if len(players) < 1 and not self.shutting_down:
                 log.info("There's no players online")
                 log.info(
                     f"Shutting down server in {self.shutdown_timeout} seconds if no players join"
