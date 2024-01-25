@@ -114,5 +114,5 @@ async def save(interaction: discord.Interaction):
         await interaction.followup.send("Command Failed.")
 
 
-def start_bot(token):
-    BOT.run(token)
+async def start_bot(token):
+    return await BOT.start(token)
