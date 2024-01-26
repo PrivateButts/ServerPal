@@ -46,7 +46,8 @@ class AutoSleep:
             asyncio.create_task(self._delay(self.shutdown, self.shutdown_timeout)),
         ]
         await asyncio.gather(*self.shutdown_tasks)
-        self.reset()
+        log.info("Waiting 60 seconds before resetting watcher")
+        await self._delay(self.reset, 60)
 
     async def cancel_shutdown(self):
         log.info("Cancelling shutdown")
